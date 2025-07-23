@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import useCountries from '@/hooks/useCountries';
 import CountrySelect from './country-select';
 import Counter from './counter-input';
+import ImageUploadComponent from './image-upload';
 
 const STEPS = {
   CATEGORY: 0,
@@ -129,6 +130,7 @@ function BecomeaHostComponent() {
     sourceAtStep = (
       <div>
         <h1>Upload images of your property</h1>
+        <ImageUploadComponent />
         {/* Image upload component can be added here */}
       </div>
     );
