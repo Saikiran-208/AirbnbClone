@@ -2,7 +2,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./prisma.js"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialProvider from "next-auth/providers/credentials"
-import { hash, hashCompare } from "_keyhasher";
+import { hash, hashCompare } from "keyhasher";
 import { getServerSession } from "next-auth/next";
 export const authOptions = {
     adapter: PrismaAdapter(prisma),

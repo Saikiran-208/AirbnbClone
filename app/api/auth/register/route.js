@@ -1,7 +1,7 @@
 
 import { NextResponse } from "next/server";
 import { prisma } from "@/utils/prisma";
-import { hash } from "_keyhasher";
+import { hash } from "keyhasher";
 
 export async function POST(request) {
     const body = await request.json();
