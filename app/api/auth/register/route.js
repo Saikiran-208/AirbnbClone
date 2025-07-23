@@ -1,4 +1,4 @@
-
+export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import { prisma } from "@/utils/prisma";
 import { hash } from "keyhasher";
