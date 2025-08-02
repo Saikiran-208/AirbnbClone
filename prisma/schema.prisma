@@ -16,7 +16,7 @@ model User {
   hashedPassword String?
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
-  favorites      String[]
+  favourites     String[]
   accounts       Account[]
   listings       Listing[]
   reservations   Reservation[]
@@ -25,8 +25,8 @@ model User {
 model Listing {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
   title         String
-  description   String?
-  imageSrc      String?
+  description   String
+  imageSrc      String
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   category      String
@@ -35,7 +35,7 @@ model Listing {
   guestCount    Int
   locationValue String
   price         Int
-  User          User?         @relation(fields: [userId], references: [id])
+  user          User?         @relation(fields: [userId], references: [id])
   userId        String?       @db.ObjectId
   reservations  Reservation[]
 }
@@ -43,10 +43,10 @@ model Listing {
 model Reservation {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  User       User?    @relation(fields: [userId], references: [id])
+  user       User?    @relation(fields: [userId], references: [id])
   userId     String?  @db.ObjectId
-  lisitingId String   @db.ObjectId
-  listing    Listing  @relation(fields: [lisitingId], references: [id])
+  listingId  String   @db.ObjectId
+  listing    Listing  @relation(fields: [listingId], references: [id])
   startDate  DateTime
   endDate    DateTime
   totalPrice Int
@@ -58,11 +58,11 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.String
-  access_token      String? @db.String
+  refresh_token     String?  @db.String
+  access_token      String?  @db.String
   expires_at        Int?
   scope             String?
-  id_token          String? @db.String
+  id_token          String?  @db.String
   token_type        String?
   session_state     String?
   createdAt         DateTime @default(now())

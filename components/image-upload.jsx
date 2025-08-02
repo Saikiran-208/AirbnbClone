@@ -1,11 +1,12 @@
 import { uploadToBlob } from '@/utils/uploadToBlob'
 import React from 'react'
 
-function ImageUploadComponent() {
+function ImageUploadComponent({value , returnUrl}) {
+
 const handleImageUpload = async (e) => {
    const file = e.target.files[0]
-   const response = await uploadToBlob(file)
-   console.log(response)
+   const {url} = await uploadToBlob(file)
+  returnUrl(url)
 }
   return (
     <div>

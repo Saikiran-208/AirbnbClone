@@ -1,5 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
-// import { PrismaClient } from "@prisma/client";
+
 let prisma;
 
 if(process.env.NODE_ENV === 'production') {
@@ -14,8 +14,6 @@ if(process.env.NODE_ENV === 'production') {
 
 }
    
-
-    
 
  export {prisma};
 
