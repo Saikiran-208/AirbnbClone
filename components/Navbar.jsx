@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { Icons } from './Icons'
 import { CircleUserRound, Search } from 'lucide-react';
 import { DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
@@ -41,12 +41,14 @@ const Navbar = () => {
                 <UserComponent />
 
             </div>
+           <Suspense fallback={null}>
             <SearchModal
                 key={modalStateStep}
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
                 stepAt={modalStateStep}
             />
+            </Suspense>
         </div>
     )
 }

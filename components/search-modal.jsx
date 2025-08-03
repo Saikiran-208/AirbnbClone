@@ -7,9 +7,6 @@ import CountrySelect from './country-select'
 import CalendarInput from './calendar'
 import Counter from './counter-input'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { SearchParamsContext } from 'next/dist/shared/lib/hooks-client-context.shared-runtime'
-
-
 
 
 const STEPS = {
