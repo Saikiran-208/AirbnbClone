@@ -1,12 +1,13 @@
+import NotFound from '@/app/not-found';
 import EmptyPage from '@/components/emptyPage';
 import PropertyBox from '@/components/property-box';
-import { getAuthSession } from '@/utils/auth'
+import { auth } from '@/utils/auth'
 import { prisma } from '@/utils/prisma';
 import React from 'react'
 
 const Properties = async () => {
-    const session = await getAuthSession();
-    if (!session) notFound();
+    const session = await auth();
+    if (!session) NotFound();
 
     const propertiesList = await prisma.listing.findMany({
         where: { userId: session.user.id }
@@ -24,7 +25,7 @@ const Properties = async () => {
             <div className='grid grid-cols-2 md:grid-cols-4 gap-5'>
                 {
                     propertiesList.map((each) => (
-                        <PropertyBox each={each} />
+                        <PropertyBox key={each.id} each={each} />
                     ))
                 }
             </div>

@@ -2,8 +2,9 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./prisma.js"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialProvider from "next-auth/providers/credentials"
-import { hash, hashCompare } from "keyhasher";
+import { compare } from "bcrypt";
 import { getServerSession } from "next-auth/next";
+
 export const authOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
@@ -29,9 +30,11 @@ export const authOptions = {
                 if (!user || !user?.hashedPassword) {
                     throw new Error("User not found")
                 }
-                const isCorrectPassword = hashCompare(
-                    user.hashedPassword,
-                    hash(credentials.password)
+                const isCorrectPassword =compare(
+                    credentials.password,
+                    user.hashedPassword
+                    // user.hashedPassword,
+                    // hash(credentials.password)
                 )
                 if (!isCorrectPassword) {
                     throw new Error("Invalid credentials")
@@ -44,19 +47,22 @@ export const authOptions = {
         signIn: "/"
     },
     session: {
-        strategy: "jwt"
+        strategy: "jwt",
     },
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
         async session({ session, token }) {
             if (token) {
-                session.user.id = token.id
+                session.user.id = token.id;
+                session.user.email = token.email;
+                session.user.name = token.name;
+                session.user.image = token.image;
             }
             return session;
         },
         async jwt({ token, user }) {
             if (user) {
-                token.id = user.id
+                token.id = user.id;
                 token.email = user.email;
                 token.name = user.name;
                 token.image = user.image;
@@ -67,4 +73,4 @@ export const authOptions = {
 
 
 }
-export const getAuthSession = () => getServerSession(authOptions);
+export const auth = () => getServerSession(authOptions);

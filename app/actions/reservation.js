@@ -1,11 +1,11 @@
 'use server'
 
-import { getAuthSession } from "@/utils/auth"
+import { auth } from "@/utils/auth"
 import { prisma } from "@/utils/prisma";
 import { getUser } from "./getUser";
 
 export async function getReservations() {
-    const session = await getAuthSession();
+    const session = await auth();
     if (!session || !session.user) {
         return { ok: false, message: 'Not permitted', status: 403 }
     }
@@ -32,7 +32,7 @@ export async function getReservations() {
 
 
 export async function setReservation({ listingId, startDate, endDate, price }) {
-    const session = await getAuthSession();
+    const session = await auth();
 
     if (!session || !session.user) {
         return { ok: false, message: 'Not permitted', status: 403 }

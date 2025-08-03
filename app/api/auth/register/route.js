@@ -1,12 +1,12 @@
 export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import { prisma } from "@/utils/prisma";
-import { hash } from "keyhasher";
+import { hash } from "bcrypt";
 
 export async function POST(request) {
     const body = await request.json();
     const { name, email, password } = body;
-    const hashedPassword = await hash(password);
+    const hashedPassword = await hash(password,12);
     if (!name || !email || !password) {
         return NextResponse.json({ message: "All fields are required" }, { status: 400 });
     }

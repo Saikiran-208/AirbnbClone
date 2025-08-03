@@ -50,7 +50,7 @@ function LoginForm({ origin = 'signIn' }) {
       }
       else{
         //call api to create a new user
-        console.log("about to make api call",data);
+        
         axios.post("/api/auth/register", data)
         .then(()=>{
           console.log("User created successfully");

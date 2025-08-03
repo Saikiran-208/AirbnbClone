@@ -3,7 +3,7 @@
 import ListingsCard from "@/components/listings-card";
 import { getListings } from "./actions/getListings";
 import CategoryHandler from "@/components/category-handler";
-import { getAuthSession } from "@/utils/auth";
+
 import { getUser } from "./actions/getUser";
 
 export const metadata = {

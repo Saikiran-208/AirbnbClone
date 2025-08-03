@@ -88,7 +88,7 @@ export default function BecomeaHostComponent() {
   }
 
   const onNext = (data) => {
-    console.log("Data being Submitted",data);
+    // console.log("Data being Submitted",data);
     if(step !==  STEPS.PRICE){
       setStep(step => step + 1)
     }else{
@@ -98,7 +98,7 @@ export default function BecomeaHostComponent() {
           
           'Property Listed'
         );
-        router.push(`/properties`)
+        router.push(`/`)
       }
           
             
@@ -120,7 +120,7 @@ export default function BecomeaHostComponent() {
       <p className='text-gray-500'>Pick a category</p>
       <div className="grid grid-cols-2  md:grid-cols-4 gap-3">
         {categories.map(each => {
-          return <div onClick={() => setCustomValue('category', each.label)} className={cn('bg-gray-100 flex flex-col p-5 rounded-lg border-2 border-gray-300/20 text-semibold',
+          return <div key={each.label} onClick={() => setCustomValue('category', each.label)} className={cn('bg-gray-100 flex flex-col p-5 rounded-lg border-2 border-gray-300/20 text-semibold',
             category === each.label ? "bg-rose-500/80 text-white" : "bg-gray-100"
           )}>
             <each.icon />

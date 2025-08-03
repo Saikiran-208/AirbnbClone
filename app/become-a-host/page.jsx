@@ -1,10 +1,10 @@
-import { getAuthSession } from '@/utils/auth'
+import { auth } from '@/utils/auth'
 import Link from 'next/link';
 import React from 'react'
 import BecomeaHostComponent from '@/components/BecomeaHostComponent';
 
 async function BecomeAHost() {
-    const session = await getAuthSession();
+    const session = await auth();
     if (!session) {
         return (
             <section className="w-full h-screen grid place-items-center">
@@ -17,9 +17,10 @@ async function BecomeAHost() {
         )
     }
     return (
-        <div>
+        <>
+
             <BecomeaHostComponent />
-        </div>
+      </>
     )
 }
 

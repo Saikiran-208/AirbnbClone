@@ -9,7 +9,7 @@ import FavouriteBtn from "./favourite-btn";
 import { useRouter } from "next/navigation";
 
 
-export default function ListingsCard({user, reservationsData, listing,showSecondaryBtn = false,secondaryBtnLabel, onAction }) {
+export default function ListingsCard({user, reservationsData, listing, showSecondaryBtn = false,secondaryBtnLabel, onAction }) {
     const router =  useRouter();
     const { getByValue } = useCountries();
     const countryDetails = getByValue(listing.locationValue)

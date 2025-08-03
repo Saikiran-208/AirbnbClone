@@ -21,7 +21,7 @@ async function Bookings() {
     <div className='p-4 md:p-8'>
       <div className='grid grid-cols-2 md:grid-cols-4 gap-4'> 
       {reservations.map((each, index) =>
-        <BookedCard key={index} resv={each}/>
+        <BookedCard key={each.id} resv={each}/>
       )}
 
       </div>

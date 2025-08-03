@@ -1,10 +1,10 @@
 'use server'
 
-import { getAuthSession } from "@/utils/auth"
+import { auth } from "@/utils/auth"
 import { prisma } from "@/utils/prisma";
 
 export async function deleteProperty(id){
-    const session = await getAuthSession();
+    const session = await auth();
     if(!session) return {ok:false, message:"Not Authorized", status:403}
       try {
     // 1. Delete all reservations for the listing

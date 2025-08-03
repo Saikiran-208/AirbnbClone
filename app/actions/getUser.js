@@ -1,10 +1,10 @@
 'use server'
 
-import { getAuthSession } from "@/utils/auth"
+import { auth } from "@/utils/auth"
 import { prisma } from "@/utils/prisma";
 
 export async function getUser(){
-    const session = await getAuthSession();
+    const session = await auth();
    try {
      if(!session || !session.user.email){
         return null

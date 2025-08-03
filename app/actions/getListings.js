@@ -64,7 +64,7 @@ const modifiedListings = listings.map((listing)=>({
     createdAt: listing.createdAt.toISOString(),
 }))
 
-    return listings
+    return modifiedListings
     
     } catch (error) {
         return {ok:false, message: error.message}

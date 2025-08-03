@@ -3,7 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 
 import { Poppins } from "next/font/google";
-import { getAuthSession } from "@/utils/auth";
+
 import { Toaster } from "@/components/ui/sonner";
 
 
@@ -15,7 +15,7 @@ const poppins = Poppins({
 
 
 export default async function RootLayout({ children }) {
-  const session = await getAuthSession();
+ 
  
   return (
     <html lang="en" className="">
