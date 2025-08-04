@@ -9,6 +9,7 @@ import SearchModal from './search-modal';
 import Link from 'next/link';
 
 
+
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [modalStateStep, setModalStateStep] = useState(-1)
@@ -20,7 +21,7 @@ const Navbar = () => {
         }
     }
     return (
-        <div className='flex justify-between items-center py-2 px-5 md:px-16 border-b-1 border-gray-300 bg-zinc-100'>
+        <div className='flex justify-between items-center py-2 px-5 md:px-16 border-b-1 border-gray-300 bg-zinc-100 w-screen'>
             <Link href='/' className="logo flex gap-1 ">
                 <Icons.logo className="w-6 text-rose-500" />
                 <span className="text-rose-500 font-semibold text-lg ">airbnb</span>
@@ -34,20 +35,20 @@ const Navbar = () => {
                 <div className='bg-rose-500 rounded-full p-2 text-white cursor-pointer hover:bg-rose-600 transition-colors duration-200 delay-100 ' onClick={() => openSearchModalAtState(0)} >
                     <Search />
                 </div>
-
-
             </div>
+            
             <div>
+                
                 <UserComponent />
 
             </div>
-           <Suspense fallback={null}>
-            <SearchModal
-                key={modalStateStep}
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                stepAt={modalStateStep}
-            />
+            <Suspense fallback={null}>
+                <SearchModal
+                    key={modalStateStep}
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    stepAt={modalStateStep}
+                />
             </Suspense>
         </div>
     )
@@ -59,13 +60,16 @@ const UserComponent = () => {
             <DropdownMenuTrigger><CircleUserRound /></DropdownMenuTrigger>
             <DropdownMenuContent className='outline-none'>
                 <DropdownMenuItem>
-                  <Link href='/bookings' > My Bookings</Link> 
+                    <Link href='/bookings' > My Bookings</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                    <Link href='/favourites' > My Favourite </Link> 
+                    <Link href='/favourites' > My Favourite </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                    <Link href='/properties' > My Properties</Link> 
+                    <Link href='/properties' > My Properties</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                    <Link href='/become-a-host' > Add Property</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>

@@ -18,8 +18,9 @@ async function Bookings() {
     }
 
   return (
-    <div className='p-4 md:p-8'>
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-4'> 
+    <div className='p-4 md:p-8 space-y-5'>
+      <h1 className='text-3xl font-semibold'>Your Bookings</h1>
+      <div className='grid grid-cols-2 md:grid-cols-4 gap-5'>
       {reservations.map((each, index) =>
         <BookedCard key={each.id} resv={each}/>
       )}
