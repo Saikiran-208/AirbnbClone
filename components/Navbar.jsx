@@ -7,10 +7,19 @@ import { DropdownMenu } from './ui/dropdown-menu';
 import { DropdownMenuSeparator } from './ui/dropdown-menu';
 import SearchModal from './search-modal';
 import Link from 'next/link';
+import { Button } from './ui/button';
+import { useRouter } from 'next/navigation';
+import { signOut, useSession } from 'next-auth/react';
+
+
+
 
 
 
 const Navbar = () => {
+     const { data: session } = useSession();
+    const router = useRouter();
+   
     const [isOpen, setIsOpen] = useState(false)
     const [modalStateStep, setModalStateStep] = useState(-1)
 
@@ -36,11 +45,13 @@ const Navbar = () => {
                     <Search />
                 </div>
             </div>
-            
-            <div>
-                
+             <div className='flex items-center gap-5'>
+                   
+              {
+                !session ? <Button onClick={()=>router.push('/sign-up')}>Login</Button> : <p>Welcome {session.user.name}</p>
+              }
+               
                 <UserComponent />
-
             </div>
             <Suspense fallback={null}>
                 <SearchModal
@@ -73,7 +84,7 @@ const UserComponent = () => {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                    Airbnb your home
+                    <Link href="#" onClick = {()=> signOut()}>Logout</Link>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

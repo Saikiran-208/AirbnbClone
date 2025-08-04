@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import { Poppins } from "next/font/google";
 
 import { Toaster } from "@/components/ui/sonner";
+import SessionWrapper from "@/components/SessionWrapper";
 
 
 const poppins = Poppins({
@@ -22,9 +23,11 @@ export default async function RootLayout({ children }) {
       <body
         className={`${poppins.className}  antialiased`}
       >
+        <SessionWrapper>
         <Navbar />
         {children}
         <Toaster/>
+        </SessionWrapper>
       </body>
     </html>
   );
