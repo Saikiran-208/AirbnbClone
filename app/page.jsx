@@ -7,16 +7,18 @@ import { Suspense } from "react";
 
 import { getUser } from "./actions/getUser";
 
+
 export const metadata = {
   title: "AirBnb Website"
 }
 
 export default async function Home({ searchParams }) {
+  
   const user = await getUser();
   const rawParams = await searchParams
   const params = Object.fromEntries(Object.entries(rawParams));
 
-  // console.log(params,"searchParams")
+  
   const listings = await getListings(params);
   if (listings.length == 0) {
     return <section className="">
@@ -34,7 +36,9 @@ export default async function Home({ searchParams }) {
     </section>
   }
   return (
-    <section className="">
+    
+    
+        <section className="">
        <Suspense fallback={null}>
         <CategoryHandler />
       </Suspense>
@@ -44,6 +48,8 @@ export default async function Home({ searchParams }) {
         })}
       </div>
 
-    </section>
-  );
+    </section> 
+    
+      )
+  
 }

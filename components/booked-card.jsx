@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 
 const BookedCard = ({resv}) => {
 const router = useRouter();
-    // console.log(resv,"resv")
+    
 
     const cancelReservation =async (e)=>{
         e.preventDefault();

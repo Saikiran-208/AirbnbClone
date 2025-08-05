@@ -51,7 +51,7 @@ const Navbar = () => {
                 !session ? <Button onClick={()=>router.push('/sign-up')}>Login</Button> : <p>Welcome {session.user.name}</p>
               }
                
-                <UserComponent />
+                <UserComponent session = {session} />
             </div>
             <Suspense fallback={null}>
                 <SearchModal
@@ -65,7 +65,7 @@ const Navbar = () => {
     )
 }
 
-const UserComponent = () => {
+const UserComponent = ({session}) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger><CircleUserRound /></DropdownMenuTrigger>
@@ -84,7 +84,9 @@ const UserComponent = () => {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                    <Link href="#" onClick = {()=> signOut()}>Logout</Link>
+                   {
+                    session ?  <Link href="#" onClick = {()=> signOut()}>Logout</Link> :<Link href="/sign-up" >Login</Link> 
+                   } 
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

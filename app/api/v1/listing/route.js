@@ -6,7 +6,7 @@ export async function POST(request) {
     try {
         const body = await request.json();
         const session = await auth();
-        console.log(session,"Session")
+       
 
         if(!session || !session.user){
             return NextResponse.json({message:"not Authorized"}, {status:403})

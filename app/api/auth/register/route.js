@@ -19,7 +19,7 @@ export async function POST(request) {
                 hashedPassword
             }
         });
-        console.log("User created successfully:", user);
+        
         return NextResponse.json(user, { status: 201 });
     }
     catch (error) {

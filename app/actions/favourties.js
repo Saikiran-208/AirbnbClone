@@ -37,7 +37,7 @@ export async function setFavourite(id) {
     let favourites = [...(user.favourites) || []];
 
     favourites.push(id);
-    console.log(favourites, 'favourites')
+    
 
     try {
         await prisma.user.update({

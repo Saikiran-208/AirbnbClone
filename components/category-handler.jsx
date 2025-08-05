@@ -15,7 +15,7 @@ export default function CategoryHandler(){
         router.push(`?${params.toString()}`)
     }
 
-    // console.log(cat,"cat")
+    
 
     return(
         <div className="w-full flex justify-evenly gap-3 bg-gray-100/40 py-2 px-8 border-b border-gray-200 overflow-x-auto">

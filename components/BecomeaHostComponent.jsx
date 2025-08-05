@@ -36,7 +36,7 @@ export default function BecomeaHostComponent() {
   }
 
   const { getByValue } = useCountries();
-  // console.log(getByValue('IN'));
+
 
   const {
     register,
@@ -88,7 +88,7 @@ export default function BecomeaHostComponent() {
   }
 
   const onNext = (data) => {
-    // console.log("Data being Submitted",data);
+ 
     if(step !==  STEPS.PRICE){
       setStep(step => step + 1)
     }else{

@@ -11,9 +11,9 @@ export default async function SingleListingPage({ params} ) {
     const { id } = params;
 
     const data = await getListingById(id);
-    console.log(data,"data");
+  
     const reservations = await getReservationsById(id);
-    console.log(reservations, "reservations")
+    
 
     const { getByValue } = useCountries();
     const country = getByValue(data.locationValue);
@@ -35,7 +35,9 @@ export default async function SingleListingPage({ params} ) {
                         <h5>Hosted by <span className="font-semibold">{data.user.name}</span> </h5>
                         <p>Listed on {new Date(data.createdAt).toLocaleDateString('en-In', {day:'numeric', month:'short',year:'numeric'})}</p>
                         </span>
-                        <Image className="rounded-full" src={data.user.image} width={40} height={40} alt="owner" />
+                        {data.user.image ?
+                        <Image className="rounded-full" src={data.user.image} width={40} height={40} alt="owner" />: null
+                        }
                     </div>
                     <hr />
                     <div className="flex  gap-4 ">
