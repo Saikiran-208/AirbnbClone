@@ -30,12 +30,15 @@ const Navbar = () => {
         }
     }
     return (
-        <div className='flex justify-between items-center py-2 px-5 md:px-16 border-b-1 border-gray-300 bg-zinc-100 w-screen'>
+ 
+        <div className='flex max-sm:flex-col md:flex-row justify-between items-center py-2 px-4 sm:px-6 md:px-8 lg:px-16 border-b-1 border-gray-300 bg-zinc-100  sticky top-0 z-50 w-full'>
+
+            
             <Link href='/' className="logo flex gap-1 ">
                 <Icons.logo className="w-6 text-rose-500" />
                 <span className="text-rose-500 font-semibold text-lg ">airbnb</span>
             </Link>
-            <div className='search_features flex items-center gap-2 bg-white px-2 py-[4px] border-2 border-gray-300 rounded-full '>
+            <div className='search_features flex items-center gap-2 bg-white px-2 py-[4px] border-2 border-gray-300 rounded-full'>
                 <div className='hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full cursor-pointer' onClick={() => openSearchModalAtState(0)}>Location</div>
                 <div className='bg-gray-300 h-[70%] w-[0.9px]'></div>
                 <div className='hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full cursor-pointer' onClick={() => openSearchModalAtState(1)}>Date</div>
@@ -45,7 +48,7 @@ const Navbar = () => {
                     <Search />
                 </div>
             </div>
-             <div className='flex items-center gap-5'>
+             <div className='flex items-center gap-5 flex-shrink'>
                    
               {
                 !session ? <Button onClick={()=>router.push('/sign-up')}>Login</Button> : <p>Welcome {session.user.name}</p>
@@ -61,7 +64,8 @@ const Navbar = () => {
                     stepAt={modalStateStep}
                 />
             </Suspense>
-        </div>
+            </div>
+       
     )
 }
 

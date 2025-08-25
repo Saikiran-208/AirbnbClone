@@ -38,7 +38,7 @@ export default async function Home({ searchParams }) {
   return (
     
     
-        <section className="">
+        <section className="w-full">
        <Suspense fallback={null}>
         <CategoryHandler />
       </Suspense>

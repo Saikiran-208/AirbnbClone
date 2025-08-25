@@ -13,7 +13,7 @@ export default function ListingsCard({user, reservationsData, listing, showSecon
     const router =  useRouter();
     const { getByValue } = useCountries();
     const countryDetails = getByValue(listing.locationValue)
-    return <div  className="p-3 rounded shadow border border-e-gray-200 relative">
+    return <div  className="p-3 rounded shadow border border-e-gray-200 relative ">
         
         <div className=" w-full aspect-square rounded-lg">
         <Image className="object-cover w-full h-full rounded-lg" src={listing.imageSrc} width={400} height={400} alt="property listing"/>
