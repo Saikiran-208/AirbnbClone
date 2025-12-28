@@ -1,15 +1,15 @@
-import { auth } from "@/utils/auth";
 import { prisma } from "@/utils/prisma";
 import { NextResponse } from "next/server";
+import { currentUser } from "@clerk/nextjs/server";
 
 export async function POST(request) {
     try {
         const body = await request.json();
-        const session = await auth();
-       
+        const user = await currentUser();
 
-        if(!session || !session.user){
-            return NextResponse.json({message:"not Authorized"}, {status:403})
+
+        if (!user) {
+            return NextResponse.json({ message: "Not Authorized" }, { status: 403 })
         }
 
         const {
@@ -32,7 +32,7 @@ export async function POST(request) {
             return NextResponse.json({ message: "Price is required and must be a valid number" }, { status: 400 });
         }
         // Validate required fields
-        if (!title || !description || !category || roomCount == null || guestCount==null || childCount==null || !imageSrc) {
+        if (!title || !description || !category || roomCount == null || guestCount == null || childCount == null || !imageSrc) {
             return NextResponse.json({ message: "All fields are required" }, { status: 400 });
         }
         const newListing = await prisma.listing.create({
@@ -46,7 +46,7 @@ export async function POST(request) {
                 locationValue: location.value,
                 price: parseInt(price, 10),
                 imageSrc,
-                userId: session?.user.id,
+                userId: user.id,
             }
         })
 
