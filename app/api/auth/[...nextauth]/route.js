@@ -1,6 +1,6 @@
-
-import NextAuth from "next-auth"
-import { authOptions } from "@/utils/auth";
-const handler =  NextAuth(authOptions)
-
-export { handler as GET, handler as POST }
+export async function GET(request) {
+    return new Response("This endpoint is deprecated. Use Clerk for auth.", { status: 410 });
+}
+export async function POST(request) {
+    return new Response("This endpoint is deprecated. Use Clerk for auth.", { status: 410 });
+}
