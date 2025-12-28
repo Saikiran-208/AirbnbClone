@@ -1,12 +1,12 @@
 'use server'
 
-import { auth } from "@/utils/auth"
+import { getUser } from "@/app/actions/getUser"
 import { prisma } from "@/utils/prisma";
 
-export async function deleteProperty(id){
-    const session = await auth();
-    if(!session) return {ok:false, message:"Not Authorized", status:403}
-      try {
+export async function deleteProperty(id) {
+  const user = await getUser();
+  if (!user) return { ok: false, message: "Not Authorized", status: 403 }
+  try {
     // 1. Delete all reservations for the listing
     await prisma.reservation.deleteMany({
       where: {
@@ -20,7 +20,7 @@ export async function deleteProperty(id){
         id,
       },
     })
-      
+
     // const res = await prisma.listing.deleteMany({
     //     where:{
     //         id: id,
@@ -28,7 +28,7 @@ export async function deleteProperty(id){
     //     }
     // })
     // if(!res) return {ok:false, message:"Could not find property to delete", status:404}
-   return {
+    return {
       ok: true,
       message: "Listing and related reservations deleted",
       status: 200,

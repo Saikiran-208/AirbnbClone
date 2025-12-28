@@ -9,17 +9,12 @@ import SearchModal from './search-modal';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
-import { signOut, useSession } from 'next-auth/react';
-
-
-
-
-
+import { useSession, SignInButton, SignOutButton } from '@clerk/nextjs';
 
 const Navbar = () => {
-     const { data: session } = useSession();
+    const { session } = useSession();
     const router = useRouter();
-   
+
     const [isOpen, setIsOpen] = useState(false)
     const [modalStateStep, setModalStateStep] = useState(-1)
 
@@ -30,31 +25,57 @@ const Navbar = () => {
         }
     }
     return (
- 
-        <div className='flex max-sm:flex-col md:flex-row justify-between items-center py-2 px-4 sm:px-6 md:px-8 lg:px-16 border-b-1 border-gray-300 bg-zinc-100  sticky top-0 z-50 w-full'>
 
-            
-            <Link href='/' className="logo flex gap-1 ">
-                <Icons.logo className="w-6 text-rose-500" />
-                <span className="text-rose-500 font-semibold text-lg ">airbnb</span>
-            </Link>
-            <div className='search_features flex items-center gap-2 bg-white px-2 py-[4px] border-2 border-gray-300 rounded-full'>
-                <div className='hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full cursor-pointer' onClick={() => openSearchModalAtState(0)}>Location</div>
-                <div className='bg-gray-300 h-[70%] w-[0.9px]'></div>
-                <div className='hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full cursor-pointer' onClick={() => openSearchModalAtState(1)}>Date</div>
-                <div className='bg-gray-300 h-[70%] w-[0.9px]'></div>
-                <div className='hover:bg-gray-200 transition-colors duration-200 delay-100 px-3 py-1 rounded-full cursor-pointer' onClick={() => openSearchModalAtState(2)}>Details</div>
-                <div className='bg-rose-500 rounded-full p-2 text-white cursor-pointer hover:bg-rose-600 transition-colors duration-200 delay-100 ' onClick={() => openSearchModalAtState(0)} >
-                    <Search />
+        <div className='fixed w-full bg-white z-50 shadow-sm top-0'>
+            <div className='flex flex-row justify-between items-center py-4 px-4 md:px-10 border-b border-gray-200 h-[80px]'>
+                <Link href='/' className="logo flex gap-1 items-center">
+                    <Icons.logo className="w-8 text-rose-500" />
+                    <span className="text-rose-500 font-bold text-xl hidden lg:block">airbnb</span>
+                </Link>
+
+                <div className='flex-1 flex justify-center'>
+                    {/* Simplified Search for Mobile */}
+                    <div className='md:hidden flex items-center justify-between border border-gray-300 rounded-full py-2 px-4 shadow-sm w-full max-w-[300px] cursor-pointer hover:shadow-md transition-shadow' onClick={() => openSearchModalAtState(0)}>
+                        <div className="font-semibold text-sm">Anywhere</div>
+                        <div className='bg-rose-500 rounded-full p-2 text-white'>
+                            <Search size={14} />
+                        </div>
+                    </div>
+
+                    {/* Full Search for Desktop */}
+                    <div className='hidden md:flex flex-row items-center justify-between border border-gray-300 rounded-full py-2 pl-6 pr-2 shadow-sm hover:shadow-md transition cursor-pointer gap-2'>
+                        <div className='text-sm font-semibold px-4 border-r border-gray-300' onClick={() => openSearchModalAtState(0)}>Anywhere</div>
+                        <div className='text-sm font-semibold px-4 border-r border-gray-300' onClick={() => openSearchModalAtState(1)}>Any Week</div>
+                        <div className='text-sm font-normal text-gray-600 px-4' onClick={() => openSearchModalAtState(2)}>Add Guests</div>
+                        <div className='bg-rose-500 rounded-full p-2 text-white' onClick={() => openSearchModalAtState(0)}>
+                            <Search size={16} />
+                        </div>
+                    </div>
                 </div>
-            </div>
-             <div className='flex items-center gap-5 flex-shrink'>
-                   
-              {
-                !session ? <Button onClick={()=>router.push('/sign-up')}>Login</Button> : <p>Welcome {session.user.name}</p>
-              }
-               
-                <UserComponent session = {session} />
+                <div className='flex items-center gap-5 flex-shrink'>
+                    {/* Clerk handles auth state automatically */}
+                    {
+                        !session ? (
+                            <div className="flex items-center gap-4">
+                                <Link href="/become-a-host" className="text-sm font-semibold hover:bg-gray-100 px-4 py-2 rounded-full transition-all">
+                                    Become a host
+                                </Link>
+
+                                <SignInButton mode="modal">
+                                    <Button>Login</Button>
+                                </SignInButton>
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-2">
+                                <Link href="/become-a-host" className="hidden md:block text-sm font-semibold hover:bg-gray-100 px-4 py-2 rounded-full transition-all">
+                                    Become a host
+                                </Link>
+                                <UserComponent />
+                            </div>
+                        )
+                    }
+
+                </div>
             </div>
             <Suspense fallback={null}>
                 <SearchModal
@@ -64,39 +85,46 @@ const Navbar = () => {
                     stepAt={modalStateStep}
                 />
             </Suspense>
-            </div>
-       
+        </div>
+
     )
 }
 
-const UserComponent = ({session}) => {
+const UserComponent = () => {
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger><CircleUserRound /></DropdownMenuTrigger>
-            <DropdownMenuContent className='outline-none'>
-                <DropdownMenuItem>
-                    <Link href='/bookings' > My Bookings</Link>
+            <DropdownMenuTrigger className="outline-none">
+                {/* Using the user avatar would be better, but circle user is good default */}
+                <CircleUserRound className="w-8 h-8 cursor-pointer" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className='outline-none w-56' align="end">
+                <DropdownMenuItem asChild>
+                    <Link href='/bookings' className="cursor-pointer font-semibold">Trips</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <Link href='/favourites' > My Favourite </Link>
+                <DropdownMenuItem asChild>
+                    <Link href='/favourites' className="cursor-pointer font-semibold">Wishlists</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <Link href='/properties' > My Properties</Link>
+                <DropdownMenuItem asChild>
+                    <Link href='/properties' className="cursor-pointer">Manage listings</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <Link href='/become-a-host' > Add Property</Link>
+
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                    <Link href='/become-a-host' className="cursor-pointer">Become a host</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href='/account' className="cursor-pointer">Account</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                   {
-                    session ?  <Link href="#" onClick = {()=> signOut()}>Logout</Link> :<Link href="/sign-up" >Login</Link> 
-                   } 
+
+                <DropdownMenuItem className="cursor-pointer text-rose-500 focus:text-rose-500 font-semibold" onSelect={(e) => e.preventDefault()}>
+                    <SignOutButton>
+                        <div className="w-full h-full">Log out</div>
+                    </SignOutButton>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     )
 }
-
-
 
 export default Navbar

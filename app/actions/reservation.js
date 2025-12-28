@@ -1,12 +1,11 @@
 'use server'
 
-import { auth } from "@/utils/auth"
 import { prisma } from "@/utils/prisma";
 import { getUser } from "./getUser";
 
 export async function getReservations() {
-    const session = await auth();
-    if (!session || !session.user) {
+    const user = await getUser();
+    if (!user) {
         return { ok: false, message: 'Not permitted', status: 403 }
     }
 
@@ -14,7 +13,7 @@ export async function getReservations() {
     try {
         const reservations = await prisma.reservation.findMany({
             where: {
-                userId: session.user.id,
+                userId: user.id,
 
             },
             include: {
@@ -32,9 +31,9 @@ export async function getReservations() {
 
 
 export async function setReservation({ listingId, startDate, endDate, price }) {
-    const session = await auth();
+    const user = await getUser();
 
-    if (!session || !session.user) {
+    if (!user) {
         return { ok: false, message: 'Not permitted', status: 403 }
 
     }
@@ -48,7 +47,7 @@ export async function setReservation({ listingId, startDate, endDate, price }) {
             data: {
                 reservations: {
                     create: {
-                        userId: session.user.id,
+                        userId: user.id,
                         startDate,
                         endDate,
                         totalPrice: price
@@ -76,7 +75,8 @@ export async function deleteReservation(reservationId) {
     try {
 
         const resv = await prisma.reservation.deleteMany({
-            where: {id:reservationId,
+            where: {
+                id: reservationId,
                 OR: [{ userId: user.id }, { listing: { userId: user.id } }]
             }
         })

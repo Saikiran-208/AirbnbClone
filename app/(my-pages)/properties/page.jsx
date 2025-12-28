@@ -1,16 +1,16 @@
 import NotFound from '@/app/not-found';
 import EmptyPage from '@/components/emptyPage';
 import PropertyBox from '@/components/property-box';
-import { auth } from '@/utils/auth'
+import { getUser } from '@/app/actions/getUser';
 import { prisma } from '@/utils/prisma';
 import React from 'react'
 
 const Properties = async () => {
-    const session = await auth();
-    if (!session) NotFound();
+    const user = await getUser();
+    if (!user) return NotFound();
 
     const propertiesList = await prisma.listing.findMany({
-        where: { userId: session.user.id }
+        where: { userId: user.id }
     })
 
     if (!propertiesList) {
