@@ -7,13 +7,19 @@ import ReservationComponent from "@/components/reservation-comp";
 import { getReservationsById } from "@/app/actions/getReservationsById";
 
 
-export default async function SingleListingPage({ params} ) {
-    const { id } = params;
+import { notFound } from "next/navigation";
+
+export default async function SingleListingPage({ params }) {
+    const { id } = await params;
 
     const data = await getListingById(id);
-  
+
+    if (!data) {
+        return notFound();
+    }
+
     const reservations = await getReservationsById(id);
-    
+
 
     const { getByValue } = useCountries();
     const country = getByValue(data.locationValue);
@@ -21,8 +27,8 @@ export default async function SingleListingPage({ params} ) {
 
     return <div className="p-4 md:p-8">
         {/* {JSON.stringify(data)} */}
-        <div className="w-full md:w-[70%] mx-auto">
-            <h1 className="font-bold text-xl sm:text-2xl md:text-5xl lg-text-7xl">{data.title}</h1>
+        <div className="w-full px-4 md:px-0 md:w-[85%] lg:w-[70%] mx-auto">
+            <h1 className="font-bold text-2xl sm:text-3xl md:text-5xl lg:text-7xl">{data.title}</h1>
             <div className="text-xl text-gray-500">
                 {country.label},&nbsp;
                 {country.region}
@@ -32,15 +38,15 @@ export default async function SingleListingPage({ params} ) {
                 <div className="left col-span-5 lg:col-span-3 space-y-4 ">
                     <div className="flex items-center gap-2">
                         <span>
-                        <h5>Hosted by <span className="font-semibold">{data.user.name}</span> </h5>
-                        <p>Listed on {new Date(data.createdAt).toLocaleDateString('en-In', {day:'numeric', month:'short',year:'numeric'})}</p>
+                            <h5>Hosted by <span className="font-semibold">{data.user?.name || "Host"}</span> </h5>
+                            <p>Listed on {new Date(data.createdAt).toLocaleDateString('en-In', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                         </span>
-                        {data.user.image ?
-                        <Image className="rounded-full" src={data.user.image} width={40} height={40} alt="owner" />: null
+                        {data.user?.image ?
+                            <Image className="rounded-full" src={data.user.image} width={40} height={40} alt="owner" /> : null
                         }
                     </div>
                     <hr />
-                    <div className="flex  gap-4 ">
+                    <div className="flex gap-4 flex-wrap">
                         <span className="p-3 px-5 bg-rose-100/40 rounded-lg font-semibold flex flex-col items-center">
                             <UserRound />
                             Guests: {data.guestCount}

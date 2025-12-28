@@ -33,6 +33,7 @@ export async function POST(request) {
         }
         // Validate required fields
         if (!title || !description || !category || roomCount == null || guestCount == null || childCount == null || !imageSrc) {
+            console.error("Validation failed:", { title, description, category, roomCount, guestCount, childCount, imageSrc });
             return NextResponse.json({ message: "All fields are required" }, { status: 400 });
         }
         const newListing = await prisma.listing.create({

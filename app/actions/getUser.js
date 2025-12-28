@@ -20,10 +20,20 @@ export async function getUser() {
             }
         })
 
-        // 2. If not found, create new Prisma user (Sync)
+        // 2. Check for ID mismatch (Legacy ObjectId vs Clerk ID)
+        if (mongoUser && mongoUser.id !== clerkUser.id) {
+            // Delete the old user record so we can recreate it with the correct ID
+            await prisma.user.delete({
+                where: { email: email }
+            });
+            mongoUser = null;
+        }
+
+        // 3. If not found (or deleted), create new Prisma user (Sync)
         if (!mongoUser) {
             mongoUser = await prisma.user.create({
                 data: {
+                    id: clerkUser.id,
                     email: email,
                     name: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || "User",
                     image: clerkUser.imageUrl,

@@ -9,7 +9,7 @@ import Counter from './counter-input'
 import { useRouter, useSearchParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 
-const Map = dynamic(() => import('./Map'), { ssr: false })
+
 
 const STEPS = {
   LOCATION: 0,
@@ -34,20 +34,7 @@ function SearchModal({ isOpen, setIsOpen, stepAt }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const MapPreview = useMemo(() => {
-    if (location?.latlng) {
-      return (
-        <div className="h-[250px] w-full rounded-lg overflow-hidden mt-4 shadow-sm border border-gray-200">
-          <Map center={location.latlng} listings={[]} key={location.value} />
-        </div>
-      )
-    }
-    return (
-      <div className="h-[250px] w-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm mt-4">
-        Select a location to see map preview
-      </div>
-    )
-  }, [location])
+
 
   const sourceToReturn = {
     [STEPS.LOCATION]: (
@@ -60,7 +47,6 @@ function SearchModal({ isOpen, setIsOpen, stepAt }) {
           value={location}
           onChange={value => setLocation(value)}
         />
-        {MapPreview}
       </div>
     ),
     [STEPS.DATE]: (

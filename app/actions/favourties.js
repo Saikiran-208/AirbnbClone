@@ -18,7 +18,7 @@ export async function getFavouriteListings() {
         })
         return { ok: true, data: favouritesListings, status: 200 }
     } catch (error) {
-         console.error(error.message)
+        console.error(error.message)
         return { ok: false, message: "Could not find", status: 500 }
 
     }
@@ -37,7 +37,7 @@ export async function setFavourite(id) {
     let favourites = [...(user.favourites) || []];
 
     favourites.push(id);
-    
+
 
     try {
         await prisma.user.update({
@@ -78,7 +78,8 @@ export async function deleteFavourite(id) {
         })
         return { ok: true, message: "deleted", status: 200 }
     } catch (error) {
-
+        console.error("Error deleting favorite:", error);
+        return { ok: false, message: "Could not delete", status: 500 };
     }
 }
 
